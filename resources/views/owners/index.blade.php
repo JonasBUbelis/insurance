@@ -23,10 +23,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                @php $loopIndex = 1; @endphp
-                @foreach($owners as $owner)
+                @foreach($owners as $index => $owner)
                     <tr>
-                        <td>{{ $loopIndex }}</td>
+                        <td>{{ $owner->id }}</td> <!-- Direct Owner ID (No Masking) -->
                         <td>{{ $owner->name }}</td>
                         <td>{{ $owner->surname }}</td>
                         <td>{{ $owner->phone }}</td>
@@ -43,7 +42,6 @@
                             </form>
                         </td>
                     </tr>
-                    @php $loopIndex++; @endphp
                 @endforeach
                 </tbody>
             </table>
