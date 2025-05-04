@@ -13,7 +13,7 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        $owners = Owners::where('user_id', Auth::id())->get(); // Get only the logged-in user's owners
+        $owners = Owners::all();
 
         return view('owners.index', ['owners' => $owners]);
     }
@@ -38,11 +38,9 @@ class OwnersController extends Controller
             'address' => 'required'
         ]);
 
-        $data['user_id'] = Auth::id();
-
         Owners::create($data);
 
-        return redirect()->route('owners');
+        return redirect()->route('owners.index');
     }
 
     /**
@@ -68,7 +66,7 @@ class OwnersController extends Controller
 
         $owner->update($data);
 
-        return redirect()->route('owners');
+        return redirect()->route('owners.index');
     }
 
     /**
@@ -78,6 +76,6 @@ class OwnersController extends Controller
     {
         $owner->delete();
 
-        return redirect()->route('owners');
+        return redirect()->route('owners.index');
     }
 }

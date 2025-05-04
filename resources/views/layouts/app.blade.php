@@ -31,18 +31,14 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
                     <!-- Owners Link -->
-                    @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('owners') }}">Owners</a>
+                            <a class="nav-link" href="{{ route('owners.index') }}">Owners</a>
                         </li>
-                    @endauth
 
                     <!-- Cars Link -->
-                    @auth
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
                         </li>
-                    @endauth
                 </ul>
 
                 <!-- Right Side Of Navbar -->

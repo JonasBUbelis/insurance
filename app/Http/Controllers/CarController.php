@@ -5,26 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\Owners;
-use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller {
     public function index()
     {
-        $cars = Car::with('owner')
-            ->whereHas('owner', function ($query) {
-                $query->where('user_id', Auth::id());
-            })->get();
+        $cars = Car::all();
 
-        return view('cars.index', compact('cars'));
+        return view('cars.index', ['cars' => $cars]);
     }
 
     public function create() {
-        // Get only the owners that belong to the logged-in user
-        $owners = Owners::where('user_id', Auth::id())->get();
-
+        $owners = Owners::all(); // Make sure this is included
         return view('cars.create', compact('owners'));
     }
-
     // Store a new car
     public function store(Request $request) {
         $request->validate([

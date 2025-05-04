@@ -7,7 +7,7 @@
                 <div class="card shadow-lg">
                     <div class="card-body text-center">
                         <h1 class="mb-4">Insurance</h1>
-                        <a href="{{ route('owners') }}" class="btn btn-primary">Check Owners</a>
+                        <a href="{{ route('owners.index') }}" class="btn btn-primary">Check Owners</a>
                     </div>
                 </div>
             </div>

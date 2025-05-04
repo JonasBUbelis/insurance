@@ -14,7 +14,7 @@
             <h3 class="text-center mb-0">Create Owner</h3>
         </div>
         <div class="card-body">
-            <form method="post" action="{{ route('store') }}">
+            <form method="post" action="{{ route('owners.store') }}">
                 @csrf
                 @if($errors->any())
                     <div class="alert alert-danger">
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('owners') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('owners.index') }}" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
