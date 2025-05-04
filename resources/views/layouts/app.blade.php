@@ -32,12 +32,12 @@
                 <ul class="navbar-nav me-auto">
                     <!-- Owners Link -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('owners.index') }}">Owners</a>
+                            <a class="nav-link" href="{{ route('owners.index') }}">{{ __('Owners')}}</a>
                         </li>
 
                     <!-- Cars Link -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
+                            <a class="nav-link" href="{{ route('cars.index') }}">{{ __('Cars')}}</a>
                         </li>
                 </ul>
 

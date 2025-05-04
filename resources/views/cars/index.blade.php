@@ -2,34 +2,42 @@
 
 @section('content')
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Cars List</h1>
+        <h1 class="text-center mb-4">{{ __('Cars List')}}</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
-        @php
-            $hasOwners = \App\Models\Owners::exists();
-        @endphp
-        @if (!$hasOwners)
-            <div class="alert alert-danger">
-                You must have at least one owner to add a car.
-                <a href="{{ route('cars.create') }}" class="alert-link">Click here to add an owner.</a>
-            </div>
-        @elseif(auth()->check() && auth()->user()->type === 'edit')
-            <div class="d-flex justify-content-end mb-3">
-                <a href="{{ route('cars.create') }}" class="btn btn-primary">Add New Car</a>
-            </div>
-        @endif
+            @if(auth()->check() && auth()->user()->type === 'edit')
+                <a href="{{ route('cars.create') }}" class="btn btn-primary">{{ __('Add New Car')}}</a>
+            @else
+                <div></div>
+
+            @endif
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ strtoupper(app()->getLocale()) }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('Language', ['language' => 'en']) }}">{{ __('English') }}</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('Language', ['language' => 'lt']) }}">{{ __('Lithuanian') }}</a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
                 <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
-                    <th>Registration Number</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Owner ID</th>
+                    <th>{{ __('ID')}}</th>
+                    <th>{{ __('Registration Number')}}</th>
+                    <th>{{ __('Brand')}}</th>
+                    <th>{{ __('Model')}}</th>
+                    <th>{{ __('Owner ID')}}</th>
                     @if(auth()->check() && auth()->user()->type === 'edit')
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>{{ __('Edit')}}</th>
+                    <th>{{ __('Delete')}}</th>
                     @endif
                 </tr>
                 </thead>
@@ -43,20 +51,20 @@
                         <td>{{ $car->owner_id }}</td>
                         @if(auth()->check() && auth()->user()->type === 'edit')
                         <td>
-                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">{{ __('Edit')}}</a>
                         </td>
                         <td>
                             <form method="post" action="{{ route('cars.destroy', $car) }}">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>
                             </form>
                         </td>@endif
                     </tr>
                 @endforeach
                 <div class="d-flex justify-content-between px-2">
-                    <span>Number: [[Numeris]]</span>
-                    <span>Email: [[Email]]</span>
+                    <span>{{ __('Number')}}: [[Numeris]]</span>
+                    <span>{{ __('Email')}}: [[Email]]</span>
                 </div>
                 </tbody>
             </table>
