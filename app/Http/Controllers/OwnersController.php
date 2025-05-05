@@ -35,7 +35,12 @@ class OwnersController extends Controller
             'surname' => 'required',
             'phone' => 'required|integer',
             'email' => 'required',
-            'address' => 'required'
+            'address' => 'required'],
+            ['name.required'=>  __('Name is required'),
+            'surname.required'=> __('Surname is required'),
+            'phone.required'=> __('Phone is required'),
+            'email.required'=> __('Email is required'),
+            'address.required'=> __('Address is required')
         ]);
 
         Owners::create($data);
@@ -61,7 +66,12 @@ class OwnersController extends Controller
             'surname' => 'required',
             'phone' => 'required|integer',
             'email' => 'required',
-            'address' => 'required'
+            'address' => 'required'],
+            ['name.required'=>  __('Name is required'),
+             'surname.required'=> __('Surname is required'),
+             'phone.required'=> __('Phone is required'),
+             'email.required'=> __('Email is required'),
+             'address.required'=> __('Model is required')
         ]);
 
         $owner->update($data);

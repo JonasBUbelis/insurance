@@ -15,17 +15,24 @@ class CarController extends Controller {
     }
 
     public function create() {
-        $owners = Owners::all(); // Make sure this is included
+        $owners = Owners::all();
         return view('cars.create', compact('owners'));
     }
     // Store a new car
     public function store(Request $request) {
         $request->validate([
-            'reg_number' => 'required|unique:cars',
+            'reg_number' => 'required|string|size:6|unique:cars,reg_number,',
             'brand' => 'required',
             'model' => 'required',
-            'owner_id' => 'required|exists:owners,id'
-        ]);
+            'owner_id' => 'required|exists:owners,id'],
+            ['reg_number.size'=>  __('Registration number has to be 6 symbols long'),
+             'reg_number.unique'=> __('Registration number already Exists'),
+             'reg_number.required'=> __('Registration number is required'),
+             'brand.required'=> __('Brand is required'),
+             'model.required'=> __('Model is required'),
+             'owner_id'=> __('Owner ID is required')
+         ]);
+
 
         Car::create($request->all());
         return redirect()->route('cars.index');
@@ -40,10 +47,16 @@ class CarController extends Controller {
     // Update a car
     public function update(Request $request, Car $car) {
         $request->validate([
-            'reg_number' => 'required|unique:cars,reg_number,' . $car->id,
+            'reg_number' => 'required|string|size:6|unique:cars,reg_number,' . $car->id,
             'brand' => 'required',
             'model' => 'required',
-            'owner_id' => 'required|exists:owners,id'
+            'owner_id' => 'required|exists:owners,id'],
+            ['reg_number.size'=>  __('Registration number has to be 6 symbols long'),
+            'reg_number.unique'=> __('Registration number already Exists'),
+            'reg_number.required'=> __('Registration number is required'),
+            'brand.required'=> __('Brand is required'),
+            'model.required'=> __('Model is required'),
+            'owner_id'=> __('Owner ID is required')
         ]);
 
         $car->update($request->all());

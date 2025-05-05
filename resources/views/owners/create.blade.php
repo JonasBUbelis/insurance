@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create Owner</title>
+    <title>{{ __('Create Owner')}}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -11,7 +11,7 @@
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
-            <h3 class="text-center mb-0">Create Owner</h3>
+            <h3 class="text-center mb-0">{{ __('Create Owner')}}</h3>
         </div>
         <div class="card-body">
             <form method="post" action="{{ route('owners.store') }}">
@@ -27,33 +27,33 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" required>
+                    <label class="form-label">{{ __('Name')}}</label>
+                    <input type="text" class="form-control" name="name">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Surname</label>
-                    <input type="text" class="form-control" name="surname" required>
+                    <label class="form-label">{{ __('Surname')}}</label>
+                    <input type="text" class="form-control" name="surname">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Phone</label>
-                    <input type="text" class="form-control" name="phone" required>
+                    <label class="form-label">{{ __('Phone')}}</label>
+                    <input type="text" class="form-control" name="phone">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" required>
+                    <label class="form-label">{{ __('Email')}}</label>
+                    <input type="email" class="form-control" name="email">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Address</label>
-                    <input type="text" class="form-control" name="address" required>
+                    <label class="form-label">{{ __('Address')}}</label>
+                    <input type="text" class="form-control" name="address">
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('owners.index') }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <a href="{{ route('owners.index') }}" class="btn btn-secondary">{{ __('Cancel')}}</a>
+                    <button type="submit" class="btn btn-success">{{ __('Submit')}}</button>
                 </div>
             </form>
         </div>

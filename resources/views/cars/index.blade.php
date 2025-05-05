@@ -9,7 +9,6 @@
                 <a href="{{ route('cars.create') }}" class="btn btn-primary">{{ __('Add New Car')}}</a>
             @else
                 <div></div>
-
             @endif
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
