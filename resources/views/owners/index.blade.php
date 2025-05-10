@@ -5,7 +5,7 @@
         <h1 class="text-center mb-4">{{ __('Owners List') }}</h1>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            @if(auth()->check() && auth()->user()->type === 'edit')
+            @if(auth()->check())
                 <a href="{{ route('owners.create') }}" class="btn btn-primary">{{ __('Add New Owner')}}</a>
             @else
                 <div></div>
@@ -36,10 +36,8 @@
                     <th>{{ __('Phone')}}</th>
                     <th>{{ __('Email')}}</th>
                     <th>{{ __('Address')}}</th>
-                    @if(auth()->check() && auth()->user()->type === 'edit')
                     <th>{{ __('Edit')}}</th>
                     <th>{{ __('Delete')}}</th>
-                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -51,18 +49,20 @@
                         <td>{{ $owner->phone }}</td>
                         <td>{{ $owner->email }}</td>
                         <td>{{ $owner->address }}</td>
-                        @if(auth()->check() && auth()->user()->type === 'edit')
+                        @can('EditOwners', $owner)
                         <td>
                             <a href="{{ route('owners.edit', $owner->id) }}" class="btn btn-warning btn-sm">{{ __('Edit')}}</a>
                         </td>
+                        @endcan
                         <td>
+                            @can('DeleteOwners', $owner)
                             <form method="post" action="{{ route('owners.destroy', $owner) }}"
                                   onsubmit="return confirm('{{ __('Are you sure you want to delete this owner?')}}');">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>
-                            </form>
-                        </td>@endif
+                            </form>@endcan
+                        </td>
                     </tr>
                 @endforeach
                 <div class="d-flex justify-content-between px-2">

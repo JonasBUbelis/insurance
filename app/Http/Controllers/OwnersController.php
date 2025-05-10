@@ -13,9 +13,14 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        $owners = Owners::all();
+        $user = Auth::user();
 
-        return view('owners.index', ['owners' => $owners]);
+        if(!$user) {$owners = collect();}
+        else if($user->type === 'admin' || $user->type === 'read_only') {$owners = Owners::all();}
+        else if($user->type === 'regular'){$owners = Owners::where('user_id', $user->id)->get();}
+        else{$owners = collect();}
+
+        return view('owners.index', compact('owners'));
     }
     /**
      * Show the form for creating a new resource.
@@ -42,6 +47,7 @@ class OwnersController extends Controller
             'email.required'=> __('Email is required'),
             'address.required'=> __('Address is required')
         ]);
+        $data['user_id'] = Auth::id();
 
         Owners::create($data);
 
@@ -51,8 +57,13 @@ class OwnersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Owners $owner)
-    {
+    public function edit(Owners $owner, Request $request){
+        if (! $request->user()->can('EditOwners', $owner) ){
+            return redirect()->route('owners.index');
+        }
+        if (! $request->user()->can('EditOwners', $owner) ){
+        return redirect()->route('owners.index');
+    }
         return view('owners.edit', ['owner' => $owner]);
     }
 
@@ -61,6 +72,9 @@ class OwnersController extends Controller
      */
     public function update(Request $request, Owners $owner)
     {
+        if (! $request->user()->can('EditOwners', $owner) ){
+            return redirect()->route('owners.index');
+        }
         $data = $request->validate([
             'name' => 'required',
             'surname' => 'required',
@@ -82,8 +96,10 @@ class OwnersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Owners $owner)
-    {
+    public function destroy(Owners $owner, Request $request){
+        if (! $request->user()->can('DeleteOwners', $owner) ){
+            return redirect()->route('owners.index');
+        }
         $owner->delete();
 
         return redirect()->route('owners.index');

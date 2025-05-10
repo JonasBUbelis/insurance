@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() != null && $request->user()->type == 'edit') {
+        if ($request->user() != null && $request->user()->type == 'admin') {
             return $next($request);
         }
         return redirect()->route('owners.index');

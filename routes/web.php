@@ -24,8 +24,6 @@ Route::get('/owners', [OwnersController::class, 'index'])->name('owners.index');
 
 Route::middleware([CustomAuth::class])->group(function () {
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
-
-Route::middleware([IsAdmin::class])->group(function () {
 Route::get('/owners/create', [OwnersController::class, 'create'])->name('owners.create');
 Route::post('/owners', [OwnersController::class, 'store'])->name('owners.store');
 Route::get('/owners/{owner}/edit', [OwnersController::class, 'edit'])->name('owners.edit');
@@ -37,4 +35,4 @@ Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit'
 Route::put('/cars/{car}', [CarController::class, 'update'])->name('cars.update');
 Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 Route::delete('/photos/{photo}', [CarPhotoController::class, 'delete'])->name('photos.delete');
-Route::post('/photos/{car}', [CarPhotoController::class, 'store'])->name('photos.store');});});});});
+Route::post('/photos/{car}', [CarPhotoController::class, 'store'])->name('photos.store');});});});

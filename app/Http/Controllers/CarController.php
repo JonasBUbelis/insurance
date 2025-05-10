@@ -5,15 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\Owners;
+use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller {
-    public function index(){
-        $cars = Car::all();
+    public function index()
+    {
+        $user = Auth::user();
+
+        if(!$user) {$owners = collect();$cars = collect();}
+        else if ($user->type === 'admin' || $user->type === 'read_only') {$owners = Owners::all(); $cars = Car::all();}
+        else if ($user->type === 'regular'){$owners = Owners::where('user_id', $user->id)->get();
+        $cars = Car::whereIn('owner_id', $owners->pluck('id'))->get();}
+
         return view('cars.index', ['cars' => $cars]);
     }
 
     public function create() {
-        $owners = Owners::all();
+        $user = Auth::user();
+
+        if(!$user) {$owners = collect();}
+        else if ($user->type === 'admin' || $user->type === 'read_only') {$owners = Owners::all();}
+        else if ($user->type === 'regular') {$owners = Owners::where('user_id', $user->id)->get();}
+
         return view('cars.create', compact('owners'));
     }
 
@@ -35,12 +48,23 @@ class CarController extends Controller {
         return redirect()->route('cars.index');
     }
 
-    public function edit(Car $car) {
-        $owners = Owners::all();
+    public function edit(Car $car, Request $request) {
+        if (! $request->user()->can('EditCars', $car) ){
+            return redirect()->route('cars.index');
+        }
+        $user = Auth::user();
+
+        if(!$user) {$owners = collect();}
+        else if ($user->type === 'admin' || $user->type === 'read_only') {$owners = Owners::all();}
+        else if ($user->type === 'regular') {$owners = Owners::where('user_id', $user->id)->get();}
+
         return view('cars.edit', compact('car', 'owners'));
     }
 
     public function update(Request $request, Car $car) {
+        if (! $request->user()->can('EditCars', $car) ){
+            return redirect()->route('cars.index');
+        }
         $request->validate([
             'reg_number' => 'required|string|size:6|unique:cars,reg_number,' . $car->id,
             'brand' => 'required',
@@ -56,7 +80,10 @@ class CarController extends Controller {
         $car->update($request->all());
         return redirect()->route('cars.index');
     }
-    public function destroy(Car $car) {
+    public function destroy(Car $car, Request $request) {
+        if (! $request->user()->can('DeleteCars', $car) ){
+            return redirect()->route('cars.index');
+        }
         $car->delete();
         return redirect()->route('cars.index');
     }

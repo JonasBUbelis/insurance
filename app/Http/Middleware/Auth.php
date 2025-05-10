@@ -21,6 +21,6 @@ class Auth
         }
 
         // User is not logged in, redirect to owners.index
-        return redirect()->route('owners.index');
+        return redirect()->route('login');
     }
 }

@@ -15,13 +15,6 @@ class Replace
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Start before system loads
-        $response=$next($request);
-        $html=$response->getContent();
-        $html=str_replace('[shortcode]','replace',$html);
-        $response->setContent($html);
-        // Starts after system loads
-
-        return $response;
+        return $next($request);
     }
 }

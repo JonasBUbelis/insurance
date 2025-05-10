@@ -5,11 +5,8 @@
         <h1 class="text-center mb-4">{{ __('Cars List')}}</h1>
         <div class="d-flex justify-content-between align-items-center mb-3">
 
-            @if(auth()->check() && auth()->user()->type === 'edit')
                 <a href="{{ route('cars.create') }}" class="btn btn-primary">{{ __('Add New Car')}}</a>
-            @else
                 <div></div>
-            @endif
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ strtoupper(app()->getLocale()) }}
@@ -35,10 +32,8 @@
                     <th>{{ __('Brand')}}</th>
                     <th>{{ __('Model')}}</th>
                     <th>{{ __('Owner ID')}}</th>
-                    @if(auth()->check() && auth()->user()->type === 'edit')
                     <th>{{ __('Edit')}}</th>
                     <th>{{ __('Delete')}}</th>
-                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -54,18 +49,18 @@
                         <td>{{ $car->brand }}</td>
                         <td>{{ $car->model }}</td>
                         <td>{{ $car->owner_id }}</td>
-                        @if(auth()->check() && auth()->user()->type === 'edit')
+                        @can('EditCars', $car)
                         <td>
                             <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">{{ __('Edit')}}</a>
-                        </td>
-                        <td>
+                        </td>@endcan
+                        <td>@can('DeleteCars', $car)
                             <form method="post" action="{{ route('cars.destroy', $car) }}"
                                   onsubmit="return confirm('{{ __('Are you sure you want to delete this car?')}}');">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>
-                            </form>
-                        </td>@endif
+                            </form>@endcan
+                        </td>
                     </tr>
                 @endforeach
                 <div class="d-flex justify-content-between px-2">
