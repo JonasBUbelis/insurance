@@ -14,7 +14,7 @@
             <h3 class="text-center mb-0">{{ __('Edit Car')}}</h3>
         </div>
         <div class="card-body">
-            <form method="post" action="{{ route('cars.update', $car) }}">
+            <form method="post" action="{{ route('cars.update', $car)}}">
                 @csrf
                 @method('put')
 
@@ -59,6 +59,33 @@
                     <button type="submit" class="btn btn-success">{{ __('Update')}}</button>
                 </div>
             </form>
+
+            <hr>
+            <form method="post" action="{{ route('photos.store', $car->id)}}" enctype="multipart/form-data" class="mt-4">
+                @csrf
+                <div class="mb-3">
+                    <label class="form-label">{{ __('Upload Car Photo')}}</label>
+                    <input type="file" name="photo" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">{{ __('Upload Photo')}}</button>
+            </form>
+
+            @if($car->photos && $car->photos->count())
+                <h5 class="mt-4">{{ __('Existing Photos') }}</h5>
+                <div class="row">
+                    @foreach($car->photos as $photo)
+                        <div class="col-md-3 text-center mb-3">
+                            <img src="{{ asset('storage/car_photos/' . $photo->photo) }}" class="img-fluid img-thumbnail" alt={{ __('Car Photo')}}>
+                            <form method="post"  class="mt-2" action="{{ route('photos.delete', $photo->id) }}"
+                                  onsubmit="return confirm('{{ __('Are you sure you want to delete this car?')}}');">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>
+                            </form>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 </div>

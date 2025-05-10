@@ -10,6 +10,7 @@
             @else
                 <div></div>
             @endif
+
             <div class="dropdown">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ strtoupper(app()->getLocale()) }}
@@ -55,7 +56,8 @@
                             <a href="{{ route('owners.edit', $owner->id) }}" class="btn btn-warning btn-sm">{{ __('Edit')}}</a>
                         </td>
                         <td>
-                            <form method="post" action="{{ route('owners.destroy', $owner) }}" onsubmit="return confirm('Are you sure you want to delete this owner?');">
+                            <form method="post" action="{{ route('owners.destroy', $owner) }}"
+                                  onsubmit="return confirm('{{ __('Are you sure you want to delete this owner?')}}');">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>

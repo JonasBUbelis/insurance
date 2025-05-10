@@ -8,7 +8,7 @@ class LanguageController extends Controller
 {
     public function SwitchLanguage($language, Request $request)
     {
-        $request->session()->put('language', $language); // Store the selected language in session
+        $request->session()->put('language', $language);
         return redirect()->back();
     }
 }

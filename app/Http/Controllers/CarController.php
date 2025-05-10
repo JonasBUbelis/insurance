@@ -7,10 +7,8 @@ use App\Models\Car;
 use App\Models\Owners;
 
 class CarController extends Controller {
-    public function index()
-    {
+    public function index(){
         $cars = Car::all();
-
         return view('cars.index', ['cars' => $cars]);
     }
 
@@ -18,7 +16,7 @@ class CarController extends Controller {
         $owners = Owners::all();
         return view('cars.create', compact('owners'));
     }
-    // Store a new car
+
     public function store(Request $request) {
         $request->validate([
             'reg_number' => 'required|string|size:6|unique:cars,reg_number,',
@@ -33,18 +31,15 @@ class CarController extends Controller {
              'owner_id'=> __('Owner ID is required')
          ]);
 
-
         Car::create($request->all());
         return redirect()->route('cars.index');
     }
 
-    // Show form to edit a car
     public function edit(Car $car) {
         $owners = Owners::all();
         return view('cars.edit', compact('car', 'owners'));
     }
 
-    // Update a car
     public function update(Request $request, Car $car) {
         $request->validate([
             'reg_number' => 'required|string|size:6|unique:cars,reg_number,' . $car->id,
@@ -56,8 +51,7 @@ class CarController extends Controller {
             'reg_number.required'=> __('Registration number is required'),
             'brand.required'=> __('Brand is required'),
             'model.required'=> __('Model is required'),
-            'owner_id'=> __('Owner ID is required')
-        ]);
+            'owner_id'=> __('Owner ID is required')]);
 
         $car->update($request->all());
         return redirect()->route('cars.index');
@@ -65,4 +59,5 @@ class CarController extends Controller {
     public function destroy(Car $car) {
         $car->delete();
         return redirect()->route('cars.index');
-}}
+    }
+}

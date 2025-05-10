@@ -15,17 +15,18 @@ class ShortCode
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {  // Start before system loads
+    {
+        // Start before system loads
         $response = $next($request);
-        if ($response instanceof \Illuminate\Http\Response && str_contains($response->headers->get('Content-Type'), 'text/html')) {
-            $content = $response->getContent();
+        if (str_contains($response->headers->get('Content-Type'), 'text/html')) {
+            $html = $response->getContent();
 
-            // Get all shortcodes from DB
-            $shortcodes = ShortCodeModel::all();
+            $shortcodes = ShortCodeModel::all(['shortcode', 'replace']);
 
-            foreach ($shortcodes as $shortcode) {$content = str_replace('[[' . $shortcode->shortcode . ']]', $shortcode->replace, $content);}
+            foreach ($shortcodes as $shortcode) {
+             $html = str_replace('[[' . $shortcode->shortcode . ']]', $shortcode->replace, $html);}
 
-            $response->setContent($content);
+            $response->setContent($html);
         }
         // Starts after system loads
         return $response;

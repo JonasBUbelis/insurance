@@ -9,13 +9,13 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\Shortcode;
 use App\Http\Controllers\LanguageController;
 use App\Http\Middleware\Language;
+use App\Http\Controllers\CarPhotoController;
 
+Route::middleware([Language::class])->group(function () {
 Route::get('/', function () {
-    return view('home');
-});
+    return view('home');});
 
 Auth::routes();
-Route::middleware([Language::class])->group(function () {
 
 Route::middleware([ShortCode::class])->group(function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
@@ -35,5 +35,6 @@ Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create'
 Route::post('/cars', [CarController::class, 'store'])->name('cars.store');
 Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
 Route::put('/cars/{car}', [CarController::class, 'update'])->name('cars.update');
-Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');});});});});
-
+Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
+Route::delete('/photos/{photo}', [CarPhotoController::class, 'delete'])->name('photos.delete');
+Route::post('/photos/{car}', [CarPhotoController::class, 'store'])->name('photos.store');});});});});

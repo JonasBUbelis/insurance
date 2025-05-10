@@ -30,6 +30,7 @@
                 <thead class="table-dark">
                 <tr>
                     <th>{{ __('ID')}}</th>
+                    <th>{{ __('Photo')}}</th>
                     <th>{{ __('Registration Number')}}</th>
                     <th>{{ __('Brand')}}</th>
                     <th>{{ __('Model')}}</th>
@@ -44,6 +45,11 @@
                 @foreach($cars as $car)
                     <tr>
                         <td>{{ $car->id }}</td>
+                        <td>
+                        @if ($car->photos->isNotEmpty())
+                            <img src="{{ asset('storage/car_photos/'.$car->photos->first()->photo) }}" style="width: 100px; height: auto;">
+                        @endif
+                        </td>
                         <td>{{ $car->reg_number }}</td>
                         <td>{{ $car->brand }}</td>
                         <td>{{ $car->model }}</td>
@@ -53,7 +59,8 @@
                             <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">{{ __('Edit')}}</a>
                         </td>
                         <td>
-                            <form method="post" action="{{ route('cars.destroy', $car) }}">
+                            <form method="post" action="{{ route('cars.destroy', $car) }}"
+                                  onsubmit="return confirm('{{ __('Are you sure you want to delete this car?')}}');">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')}}</button>
